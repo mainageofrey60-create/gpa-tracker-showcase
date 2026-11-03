@@ -4,9 +4,6 @@ A mobile-first GPA and grade tracker for university students, built with **Pytho
 
 Each student's marks stay in a private database on their own phone. There is no server and no account.
 
-<!-- Add your screenshots to docs/screenshots/ and uncomment: -->
-<!-- <p><img src="docs/screenshots/courses.jpg" width="23%"> <img src="docs/screenshots/summary.jpg" width="23%"> <img src="docs/screenshots/planner.jpg" width="23%"> <img src="docs/screenshots/data.jpg" width="23%"></p> -->
-
 ## Features
 
 - **Courses:** add, edit, delete and sort courses, with a live grade preview as you type.
@@ -99,7 +96,7 @@ All colours and sizes come from `ui/theme.py`, and the screens are built from a 
 | A fresh empty database could have been used | The first version assumed Android folders were read-only | Use `grades.db` whenever its folder is writable; fall back to private storage only in a packaged APK |
 | App closed with no message | `ButtonBehavior` imported from the wrong module | Import from `kivy.uix.behaviors` |
 | KV failed to load | Five widgets written without the trailing colon | Added the colons and scripted a check for bare lines |
-| `'NoneType' object has no attribute 'get_window_matrix'` | My `Selector` widget shared its name with Kivy's internal text-selection handle | Renamed it `DropField` |
+| `'NoneType' object has no attribute 'get_window_matrix'` | The custom `Selector` widget shared its name with Kivy's internal text-selection handle | Renamed it `DropField` |
 | `'ActionButton' object has no attribute 'filled'` | Same name clash with Kivy's own `ActionButton` | Renamed it `SolidButton` |
 | Errors looked like a blank white screen | Error text was white on a light background | Dark text, and every error is also written to `crash_log.txt` |
 | Dialogs popped up abruptly | No transition | One shared function fades dialogs in and out |
@@ -137,25 +134,6 @@ Run the tests (no Kivy needed):
 python tests/run_tests.py
 ```
 
-## Building the APK
-
-Push to GitHub, then either run the **Build APK** workflow from the Actions tab or push a version tag:
-
-```bash
-git tag v2.1
-git push origin v2.1
-```
-
-The workflow runs the tests first and only builds if they pass. The APK is attached to the run as a downloadable artifact. The first build takes about 30 minutes; later builds reuse the cached Android SDK.
-
-For each release I:
-
-1. Raise `version` and `android.numeric_version` in `buildozer.spec`, so Android treats it as an update.
-2. Run `python tests/run_tests.py`.
-3. Tag and push.
-
-Updates must be signed with the same key to keep users' data. The workflow currently builds a debug APK, so it's fine for sideloading but not for the Play Store.
-
 ## Privacy
 
 Marks are stored only in the app's own database on the device. Nothing is sent anywhere. `grades.db` is in `.gitignore` so personal data is never published.
@@ -163,7 +141,6 @@ Marks are stored only in the app's own database on the device. Nothing is sent a
 ## Roadmap
 
 - Restore-from-backup button.
-- One fixed release signing key.
 - An in-app "new version available" notice.
 - Android status-bar and keyboard insets.
 - Automated screenshot checks for the Kivy screens.
